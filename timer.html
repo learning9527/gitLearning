@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>canvas定时器实现进度条显示</title>
+  <style>
+	body{
+		text-align:center;
+	}
+	canvas{
+		background:#f0f0f0;
+	}
+	tishi {
+		font-family: '黑体';
+	}
+  </style>
+ </head>
+ <body style="background-color:#fff;">
+	<canvas  style="background-color:#fff; border:1px solid #ddd;width:100%;" id="cav" width="1500" height="400"></canvas>
+	<div class="tishi"style="font-size:20px;color:#000">提示文字</div>
+	<script>
+		var ctx=cav.getContext("2d");
+		ctx.lineWidth=20;
+		var wdh = document.body.clientWidth ;
+		
+
+		var deg=0;
+		var timer=setInterval(function(){
+			ctx.clearRect(0,0,wdh,400);
+			//绘制外层灰色框
+			ctx.beginPath();
+			ctx.arc(wdh/2,200,75,0,2*Math.PI);
+			ctx.strokeStyle="#e0e5e6";
+			ctx.stroke();
+			//绘制拱形进度条
+			ctx.beginPath();
+			deg+=12;
+			ctx.arc(wdh/2,200,75,0-Math.PI/2,deg * Math.PI/180-Math.PI/2);
+			ctx.strokeStyle="#40bad5";
+			ctx.stroke();
+			//绘制进度提示文字数字
+			ctx.font='60px Roboto Regular';
+			ctx.fillStyle="#747474";
+			ctx.textBaseline="top";
+			var txt=parseInt(30-deg/12);
+			var w=ctx.measureText(txt).width;
+			ctx.fillText(txt,wdh/2-w/2,200-45);
+			ctx.closePath();
+			//绘制进度提示文字‘s’
+			ctx.beginPath();
+			ctx.fillStyle="#c1c1c1";
+			ctx.font="36px Roboto Regular";
+			var txts="s";
+			ctx.fillText(txts,wdh/2+w/2,200-18);
+			ctx.closePath();
+			
+			if(deg>=360){
+				clearInterval(timer);
+			}
+			/*//绘制进度提示文字‘s’
+			ctx.beginPath();
+			ctx.fillStyle="#000";
+			ctx.font="20px Roboto Regular";
+			var txt="提示文字";
+			var w=ctx.measureText(txt).width;
+			ctx.fillText(txt,wdh/2-w/2,300);
+			ctx.closePath();*/
+			//绘制进度提示文字‘s’
+			ctx.beginPath();
+			ctx.fillStyle="#000";
+			ctx.font="20px 黑体";
+			var txt="提示文字";
+			var w=ctx.measureText(txt).width;
+			ctx.fillText(txt,wdh/2-w/2,300);
+			ctx.closePath();
+
+			
+		},1000);
+	</script>
+ </body>
+</html>
